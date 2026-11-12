@@ -208,7 +208,7 @@ html[data-wikicraft-enabled="true"] .vector-dropdown .vector-dropdown-content {
   border: 1px solid var(--wc-border-strong) !important;
   border-radius: var(--wc-radius-md) !important;
   box-shadow: var(--wc-shadow-float) !important;
-  padding: 12px 14px !important;
+  padding: 8px !important;
   z-index: 250 !important;
 }
 
@@ -216,7 +216,46 @@ html[data-wikicraft-enabled="true"] .vector-dropdown .vector-dropdown-checkbox:c
   opacity: 1 !important;
   visibility: visible !important;
   height: auto !important;
-  min-width: 210px !important;
+  min-width: 220px !important;
+}
+
+/* Notion-style hover background for dropdown menu items */
+html[data-wikicraft-enabled="true"] .vector-dropdown-content .mw-list-item,
+html[data-wikicraft-enabled="true"] .vector-dropdown-content .vector-menu-content-list li {
+  list-style: none !important;
+  margin: 1px 0 !important;
+  padding: 0 !important;
+}
+
+html[data-wikicraft-enabled="true"] .vector-dropdown-content .mw-list-item a,
+html[data-wikicraft-enabled="true"] .vector-dropdown-content .vector-menu-content-list li a {
+  display: flex !important;
+  align-items: center !important;
+  padding: 6px 10px !important;
+  border-radius: var(--wc-radius-sm) !important;
+  color: var(--wc-text) !important;
+  text-decoration: none !important;
+  font-size: 13.5px !important;
+  line-height: 1.4 !important;
+  transition: background-color 0.12s ease, color 0.12s ease !important;
+}
+
+html[data-wikicraft-enabled="true"] .vector-dropdown-content .mw-list-item a:hover,
+html[data-wikicraft-enabled="true"] .vector-dropdown-content .vector-menu-content-list li a:hover {
+  background-color: var(--wc-surface-elevated) !important;
+  color: var(--wc-text-strong) !important;
+  text-decoration: none !important;
+}
+
+html[data-wikicraft-enabled="true"] .vector-dropdown-content .vector-menu-heading {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: var(--wc-text-muted) !important;
+  padding: 6px 10px 4px 10px !important;
+  margin: 4px 0 2px 0 !important;
+  border-bottom: none !important;
 }
 
 /* Search input box — unified capsule for input + end button */
