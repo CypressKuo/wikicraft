@@ -5,3 +5,14 @@ dist/
 *.log
 .DS_Store
 STORE_LISTING.md
+
+# Xcode generated project & artifacts
+WikiCraft/
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+DerivedData/
