@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WikiCraft</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="popup-card">
+      <header class="popup-header">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true">W</div>
+          <div class="brand-text">
+            <h1 class="brand-title">WikiCraft</h1>
+            <p class="brand-subtitle" id="i18n-subtitle">Modern reading theme for Wikipedia</p>
+          </div>
+        </div>
+        <span class="status-badge" id="status-badge">Active</span>
+      </header>
+
+      <section class="control-row">
+        <div class="control-info">
+          <span class="control-label" id="i18n-enable-label">Enable Theme</span>
+          <span class="control-hint" id="i18n-enable-hint">Apply WikiCraft styling on Wikipedia</span>
+        </div>
+        <label class="switch" aria-label="Enable WikiCraft Theme">
+          <input type="checkbox" id="enable-toggle" checked />
+          <span class="switch-slider"></span>
+        </label>
+      </section>
+
+      <section class="theme-section" id="theme-section">
+        <div class="section-label" id="i18n-appearance-label">Appearance</div>
+        <div class="segmented-control" role="radiogroup" aria-labelledby="i18n-appearance-label">
+          <button type="button" class="segment-btn" data-mode="light" role="radio" aria-checked="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4.5" />
+              <path d="M12 2.5v2.2M12 19.3v2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6" />
+            </svg>
+            <span id="i18n-mode-light">Light</span>
+          </button>
+          <button type="button" class="segment-btn" data-mode="dark" role="radio" aria-checked="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.4 14.8A8.5 8.5 0 0 1 9.2 3.6a8.5 8.5 0 1 0 11.2 11.2Z" />
+            </svg>
+            <span id="i18n-mode-dark">Dark</span>
+          </button>
+          <button type="button" class="segment-btn" data-mode="system" role="radio" aria-checked="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="12" rx="2" />
+              <path d="M8 20h8M12 16v4" />
+            </svg>
+            <span id="i18n-mode-system">System</span>
+          </button>
+        </div>
+      </section>
+
+      <footer class="popup-footer">
+        <a
+          href="https://www.wikipedia.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-link"
+          id="i18n-open-wiki"
+        >
+          Open Wikipedia ↗
+        </a>
+        <span class="version-tag">v1.0.0</span>
+      </footer>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
