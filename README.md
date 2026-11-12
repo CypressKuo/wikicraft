@@ -1,5 +1,7 @@
 # WikiCraft — Modern Theme for Wikipedia
 
+**English** | [繁體中文](./README.zh-TW.md)
+
 A clean, **Notion & Craft-inspired reading theme** for Wikipedia (`*.wikipedia.org`), built with **WXT + TypeScript + Manifest V3**.
 
 ## Key Features
