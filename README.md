@@ -34,4 +34,4 @@ npm run zip
 1. Run `npm run build`.
 2. Open `chrome://extensions/` in Chrome.
 3. Enable **Developer mode** (top-right toggle).
-4. Click **Load unpacked** and select `/Users/cypresskuo/Documents/code/wikicraft/dist/chrome-mv3`.
+4. Click **Load unpacked** and select the `dist/chrome-mv3` folder inside this project directory.
