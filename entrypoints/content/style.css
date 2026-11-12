@@ -219,36 +219,84 @@ html[data-wikicraft-enabled="true"] .vector-dropdown .vector-dropdown-checkbox:c
   min-width: 210px !important;
 }
 
-/* Search input box */
-html[data-wikicraft-enabled="true"] .cdx-text-input__input,
-html[data-wikicraft-enabled="true"] .vector-search-box-input,
-html[data-wikicraft-enabled="true"] #searchInput {
+/* Search input box — unified capsule for input + end button */
+html[data-wikicraft-enabled="true"] .cdx-search-input--has-end-button {
   background-color: var(--wc-surface) !important;
-  color: var(--wc-text) !important;
   border: 1px solid var(--wc-border) !important;
-  border-radius: var(--wc-radius-sm) !important;
-  padding: 6px 12px 6px 34px !important;
-  font-size: 14px !important;
-  font-family: var(--wc-font-sans) !important;
-  box-shadow: none !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: stretch !important;
+  box-shadow: var(--wc-shadow-sm) !important;
   transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease !important;
 }
 
-html[data-wikicraft-enabled="true"] .cdx-text-input__input:focus,
-html[data-wikicraft-enabled="true"] .vector-search-box-input:focus,
-html[data-wikicraft-enabled="true"] #searchInput:focus {
+html[data-wikicraft-enabled="true"] .cdx-search-input--has-end-button:focus-within {
   background-color: var(--wc-bg) !important;
   border-color: var(--wc-accent) !important;
   box-shadow: 0 0 0 3px var(--wc-accent-soft) !important;
+}
+
+html[data-wikicraft-enabled="true"] .cdx-search-input--has-end-button .cdx-search-input__input-wrapper {
+  margin: 0 !important;
+  flex-grow: 1 !important;
+}
+
+html[data-wikicraft-enabled="true"] .cdx-search-input--has-end-button .cdx-text-input {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+html[data-wikicraft-enabled="true"] .cdx-search-input--has-end-button .cdx-text-input__input,
+html[data-wikicraft-enabled="true"] .cdx-search-input--has-end-button #searchInput {
+  background-color: transparent !important;
+  color: var(--wc-text) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 6px 12px 6px 36px !important;
+  font-size: 13.5px !important;
+  font-family: var(--wc-font-sans) !important;
+  box-shadow: none !important;
   outline: none !important;
 }
 
 html[data-wikicraft-enabled="true"] .cdx-search-input__end-button,
+html[data-wikicraft-enabled="true"] .cdx-search-input__end-button.cdx-button,
 html[data-wikicraft-enabled="true"] .searchButton {
+  margin: 0 !important;
   background-color: var(--wc-surface-elevated) !important;
   color: var(--wc-text-secondary) !important;
+  border: none !important;
+  border-left: 1px solid var(--wc-border) !important;
+  border-radius: 0 !important;
+  padding: 0 14px !important;
+  min-height: 34px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  font-family: var(--wc-font-sans) !important;
+  box-shadow: none !important;
+  transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+html[data-wikicraft-enabled="true"] .cdx-search-input__end-button:hover,
+html[data-wikicraft-enabled="true"] .cdx-search-input__end-button.cdx-button:hover {
+  background-color: var(--wc-surface-hover) !important;
+  color: var(--wc-text-strong) !important;
+}
+
+/* Standalone text inputs (outside .cdx-search-input--has-end-button) */
+html[data-wikicraft-enabled="true"] .cdx-text-input:not(.cdx-search-input--has-end-button .cdx-text-input) .cdx-text-input__input {
+  background-color: var(--wc-surface) !important;
+  color: var(--wc-text) !important;
   border: 1px solid var(--wc-border) !important;
-  border-radius: 0 var(--wc-radius-sm) var(--wc-radius-sm) 0 !important;
+  border-radius: 8px !important;
+  padding: 6px 12px 6px 36px !important;
+  font-size: 13.5px !important;
+  font-family: var(--wc-font-sans) !important;
+  box-shadow: none !important;
 }
 
 /* Search autocomplete menu */
