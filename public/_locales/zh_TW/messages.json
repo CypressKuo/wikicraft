@@ -1,0 +1,54 @@
+{
+  "extName": {
+    "message": "WikiCraft — 維基百科現代極簡閱讀主題",
+    "description": "Extension name shown in Chrome Web Store and browser UI"
+  },
+  "extDescription": {
+    "message": "受 Notion 與 Craft 啟發的 Wikipedia 現代極簡主題，打造卡片式資訊框、舒適排版與無縫深淺色切換體驗。",
+    "description": "Extension description"
+  },
+  "popupSubtitle": {
+    "message": "維基百科現代極簡閱讀體驗",
+    "description": "Subtitle inside popup"
+  },
+  "enableTheme": {
+    "message": "啟用主題美化",
+    "description": "Toggle label to enable/disable WikiCraft"
+  },
+  "enableThemeHint": {
+    "message": "在 Wikipedia 頁面套用 WikiCraft 排版",
+    "description": "Hint text below enable toggle"
+  },
+  "appearanceLabel": {
+    "message": "外觀模式",
+    "description": "Section title for theme mode selector"
+  },
+  "modeSystem": {
+    "message": "跟隨系統",
+    "description": "Follow OS appearance"
+  },
+  "modeLight": {
+    "message": "淺色",
+    "description": "Light mode"
+  },
+  "modeDark": {
+    "message": "深色",
+    "description": "Dark mode"
+  },
+  "statusActive": {
+    "message": "運作中",
+    "description": "Badge text when enabled"
+  },
+  "statusPaused": {
+    "message": "已暫停",
+    "description": "Badge text when disabled"
+  },
+  "openWikipedia": {
+    "message": "前往維基百科 ↗",
+    "description": "Quick link in popup footer"
+  },
+  "inPageToggleTooltip": {
+    "message": "WikiCraft 外觀切換（淺色 / 深色 / 跟隨系統）",
+    "description": "Tooltip for the in-page header toggle button"
+  }
+}

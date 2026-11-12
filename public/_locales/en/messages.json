@@ -1,0 +1,54 @@
+{
+  "extName": {
+    "message": "WikiCraft — Modern Theme for Wikipedia",
+    "description": "Extension name shown in Chrome Web Store and browser UI"
+  },
+  "extDescription": {
+    "message": "A clean, Notion & Craft-inspired reading theme for Wikipedia with card-styled infoboxes and seamless Light/Dark modes.",
+    "description": "Extension description"
+  },
+  "popupSubtitle": {
+    "message": "Modern reading theme for Wikipedia",
+    "description": "Subtitle inside popup"
+  },
+  "enableTheme": {
+    "message": "Enable Theme",
+    "description": "Toggle label to enable/disable WikiCraft"
+  },
+  "enableThemeHint": {
+    "message": "Apply WikiCraft styling on Wikipedia",
+    "description": "Hint text below enable toggle"
+  },
+  "appearanceLabel": {
+    "message": "Appearance",
+    "description": "Section title for theme mode selector"
+  },
+  "modeSystem": {
+    "message": "System",
+    "description": "Follow OS appearance"
+  },
+  "modeLight": {
+    "message": "Light",
+    "description": "Light mode"
+  },
+  "modeDark": {
+    "message": "Dark",
+    "description": "Dark mode"
+  },
+  "statusActive": {
+    "message": "Active",
+    "description": "Badge text when enabled"
+  },
+  "statusPaused": {
+    "message": "Paused",
+    "description": "Badge text when disabled"
+  },
+  "openWikipedia": {
+    "message": "Open Wikipedia ↗",
+    "description": "Quick link in popup footer"
+  },
+  "inPageToggleTooltip": {
+    "message": "WikiCraft Appearance (Light / Dark / System)",
+    "description": "Tooltip for the in-page header toggle button"
+  }
+}
