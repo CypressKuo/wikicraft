@@ -4,7 +4,7 @@
 ```bash
 npm run zip
 ```
-產出的上傳檔案位於：`.output/wikicraft-1.0.0-chrome.zip`
+產出的上傳檔案位於：`dist/wikicraft-1.0.0-chrome.zip`
 
 ---
 

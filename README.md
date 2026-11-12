@@ -20,10 +20,10 @@ npm install
 # Start development mode (with HMR)
 npm run dev
 
-# Build production unpacked extension (.output/chrome-mv3)
+# Build production unpacked extension (dist/chrome-mv3)
 npm run build
 
-# Package zip for Chrome Web Store upload (.output/wikicraft-1.0.0-chrome.zip)
+# Package zip for Chrome Web Store upload (dist/wikicraft-1.0.0-chrome.zip)
 npm run zip
 ```
 
@@ -32,4 +32,4 @@ npm run zip
 1. Run `npm run build`.
 2. Open `chrome://extensions/` in Chrome.
 3. Enable **Developer mode** (top-right toggle).
-4. Click **Load unpacked** and select `/Users/cypresskuo/Documents/code/wikicraft/.output/chrome-mv3`.
+4. Click **Load unpacked** and select `/Users/cypresskuo/Documents/code/wikicraft/dist/chrome-mv3`.
