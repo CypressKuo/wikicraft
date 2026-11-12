@@ -1,0 +1,888 @@
+/* ==========================================================================
+   WikiCraft — Notion & Craft Inspired Theme for Wikipedia
+   Zero-FOUC CSS Variable Architecture (Light & Dark Modes)
+   ========================================================================== */
+
+html[data-wikicraft-enabled="true"][data-wikicraft-theme="light"] {
+  color-scheme: light;
+  --wc-bg: #ffffff;
+  --wc-bg-subtle: #fbfbfa;
+  --wc-surface: #f7f7f5;
+  --wc-surface-elevated: #f1f1ef;
+  --wc-surface-hover: #ebebea;
+  --wc-header-bg: rgba(255, 255, 255, 0.86);
+  --wc-text: #2f3437;
+  --wc-text-strong: #191919;
+  --wc-text-secondary: #6b6f76;
+  --wc-text-muted: #9b9a97;
+  --wc-border: #e9e9e7;
+  --wc-border-strong: #dcdcd9;
+  --wc-accent: #2383e2;
+  --wc-accent-hover: #1a6ec4;
+  --wc-accent-soft: rgba(35, 131, 226, 0.1);
+  --wc-link: #2383e2;
+  --wc-link-visited: #5e50a1;
+  --wc-link-red: #d44c47;
+  --wc-code-bg: #f3f3f1;
+  --wc-callout-bg: #f7f7f5;
+  --wc-shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.04);
+  --wc-shadow-card: 0 1px 3px rgba(15, 15, 15, 0.04), 0 4px 12px rgba(15, 15, 15, 0.03);
+  --wc-shadow-float: 0 4px 20px rgba(15, 15, 15, 0.08), 0 0 0 1px rgba(15, 15, 15, 0.05);
+}
+
+html[data-wikicraft-enabled="true"][data-wikicraft-theme="dark"] {
+  color-scheme: dark;
+  --wc-bg: #191919;
+  --wc-bg-subtle: #1d1d1d;
+  --wc-surface: #202020;
+  --wc-surface-elevated: #262626;
+  --wc-surface-hover: #2f2f2f;
+  --wc-header-bg: rgba(25, 25, 25, 0.86);
+  --wc-text: #e3e3e1;
+  --wc-text-strong: #f2f2f0;
+  --wc-text-secondary: #9b9b99;
+  --wc-text-muted: #6e6e6c;
+  --wc-border: #2e2e2e;
+  --wc-border-strong: #3b3b3b;
+  --wc-accent: #529cca;
+  --wc-accent-hover: #6eb1db;
+  --wc-accent-soft: rgba(82, 156, 202, 0.14);
+  --wc-link: #58a6ff;
+  --wc-link-visited: #9d86c9;
+  --wc-link-red: #e06c65;
+  --wc-code-bg: #272727;
+  --wc-callout-bg: #222222;
+  --wc-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --wc-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.26), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --wc-shadow-float: 0 8px 28px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+html[data-wikicraft-enabled="true"] {
+  --wc-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI',
+    'PingFang TC', 'Noto Sans TC', 'Hiragino Sans', 'Microsoft JhengHei', sans-serif;
+  --wc-font-mono: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, Menlo, Monaco, Consolas,
+    monospace;
+  --wc-radius-sm: 6px;
+  --wc-radius-md: 10px;
+  --wc-radius-lg: 14px;
+  background-color: var(--wc-bg) !important;
+  color: var(--wc-text) !important;
+  font-family: var(--wc-font-sans) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ==========================================================================
+   1. Global Page Canvas & Containers
+   ========================================================================== */
+
+html[data-wikicraft-enabled="true"] body,
+html[data-wikicraft-enabled="true"] .mw-page-container,
+html[data-wikicraft-enabled="true"] .mw-page-container-inner,
+html[data-wikicraft-enabled="true"] .mw-workspace-container,
+html[data-wikicraft-enabled="true"] .mw-content-container,
+html[data-wikicraft-enabled="true"] #content,
+html[data-wikicraft-enabled="true"] #mw-page-base,
+html[data-wikicraft-enabled="true"] #mw-head-base {
+  background-color: var(--wc-bg) !important;
+  background-image: none !important;
+  color: var(--wc-text) !important;
+  font-family: var(--wc-font-sans) !important;
+  border-color: var(--wc-border) !important;
+}
+
+/* Center and constrain overall layout for comfortable reading */
+html[data-wikicraft-enabled="true"] .mw-page-container {
+  max-width: 1360px !important;
+  margin: 0 auto !important;
+  padding-left: clamp(16px, 3vw, 40px) !important;
+  padding-right: clamp(16px, 3vw, 40px) !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-page-container-inner {
+  grid-template-columns: 240px minmax(0, 1fr) !important;
+  column-gap: 40px !important;
+}
+
+/* When TOC is collapsed or hidden, center main content smoothly */
+html[data-wikicraft-enabled="true"] body.vector-feature-toc-pinned-clientpref-0 .mw-page-container-inner,
+html[data-wikicraft-enabled="true"] .mw-page-container-inner:not(:has(#vector-toc-pinned-container .vector-toc)) {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-content-container {
+  max-width: 920px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* Hide Wikipedia's redundant native "Appearance" sidebar since WikiCraft manages theme & typography */
+html[data-wikicraft-enabled="true"] .vector-appearance-landmark,
+html[data-wikicraft-enabled="true"] #vector-appearance-pinned-container,
+html[data-wikicraft-enabled="true"] #vector-appearance-unpinned-container,
+html[data-wikicraft-enabled="true"] .vector-column-end:not(:has(#vector-page-tools-pinned-container .vector-page-tools)) {
+  display: none !important;
+}
+
+/* ==========================================================================
+   2. Top Header & Search Bar (Notion Sticky Header Style)
+   ========================================================================== */
+
+html[data-wikicraft-enabled="true"] .vector-header-container,
+html[data-wikicraft-enabled="true"] .vector-sticky-header {
+  background-color: var(--wc-header-bg) !important;
+  backdrop-filter: blur(14px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
+  border-bottom: 1px solid var(--wc-border) !important;
+}
+
+html[data-wikicraft-enabled="true"] .vector-header-container .mw-header {
+  max-width: 1360px !important;
+  margin: 0 auto !important;
+  padding: 6px 0 !important;
+  min-height: 54px !important;
+}
+
+/* Invert Wikipedia wordmark/globe cleanly in dark mode */
+html[data-wikicraft-enabled="true"][data-wikicraft-theme="dark"] .mw-logo-wordmark,
+html[data-wikicraft-enabled="true"][data-wikicraft-theme="dark"] .mw-logo-tagline {
+  filter: invert(0.92) hue-rotate(180deg) !important;
+}
+
+/* Search input box */
+html[data-wikicraft-enabled="true"] .cdx-text-input__input,
+html[data-wikicraft-enabled="true"] .vector-search-box-input,
+html[data-wikicraft-enabled="true"] #searchInput {
+  background-color: var(--wc-surface) !important;
+  color: var(--wc-text) !important;
+  border: 1px solid var(--wc-border) !important;
+  border-radius: var(--wc-radius-sm) !important;
+  padding: 6px 12px 6px 34px !important;
+  font-size: 14px !important;
+  font-family: var(--wc-font-sans) !important;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+html[data-wikicraft-enabled="true"] .cdx-text-input__input:focus,
+html[data-wikicraft-enabled="true"] .vector-search-box-input:focus,
+html[data-wikicraft-enabled="true"] #searchInput:focus {
+  background-color: var(--wc-bg) !important;
+  border-color: var(--wc-accent) !important;
+  box-shadow: 0 0 0 3px var(--wc-accent-soft) !important;
+  outline: none !important;
+}
+
+html[data-wikicraft-enabled="true"] .cdx-search-input__end-button,
+html[data-wikicraft-enabled="true"] .searchButton {
+  background-color: var(--wc-surface-elevated) !important;
+  color: var(--wc-text-secondary) !important;
+  border: 1px solid var(--wc-border) !important;
+  border-radius: 0 var(--wc-radius-sm) var(--wc-radius-sm) 0 !important;
+}
+
+/* Search autocomplete menu */
+html[data-wikicraft-enabled="true"] .cdx-menu,
+html[data-wikicraft-enabled="true"] .suggestions {
+  background-color: var(--wc-surface) !important;
+  border: 1px solid var(--wc-border-strong) !important;
+  border-radius: var(--wc-radius-md) !important;
+  box-shadow: var(--wc-shadow-float) !important;
+  overflow: hidden !important;
+}
+
+html[data-wikicraft-enabled="true"] .cdx-menu-item,
+html[data-wikicraft-enabled="true"] .cdx-menu-item__content {
+  color: var(--wc-text) !important;
+}
+
+html[data-wikicraft-enabled="true"] .cdx-menu-item--highlighted,
+html[data-wikicraft-enabled="true"] .cdx-menu-item:hover {
+  background-color: var(--wc-surface-hover) !important;
+}
+
+/* ==========================================================================
+   3. Left Sidebar Table of Contents (Notion Outline Style)
+   ========================================================================== */
+
+html[data-wikicraft-enabled="true"] #vector-toc,
+html[data-wikicraft-enabled="true"] .vector-toc,
+html[data-wikicraft-enabled="true"] .vector-pinnable-element {
+  background-color: transparent !important;
+  color: var(--wc-text-secondary) !important;
+  font-family: var(--wc-font-sans) !important;
+}
+
+html[data-wikicraft-enabled="true"] #vector-toc-pinned-container {
+  position: sticky !important;
+  top: 72px !important;
+  max-height: calc(100vh - 92px) !important;
+  overflow-y: auto !important;
+  padding-right: 8px !important;
+  scrollbar-width: thin;
+  scrollbar-color: var(--wc-border-strong) transparent;
+}
+
+html[data-wikicraft-enabled="true"] .vector-toc .vector-pinnable-header {
+  padding-bottom: 8px !important;
+  margin-bottom: 6px !important;
+  border-bottom: 1px solid var(--wc-border) !important;
+}
+
+html[data-wikicraft-enabled="true"] .vector-toc .vector-pinnable-header-label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--wc-text-muted) !important;
+}
+
+/* Hide TOC pin/unpin clutter buttons to keep outline clean */
+html[data-wikicraft-enabled="true"] .vector-toc .vector-pinnable-header-toggle-button {
+  display: none !important;
+}
+
+html[data-wikicraft-enabled="true"] .vector-toc .vector-toc-list-item-active > .vector-toc-link,
+html[data-wikicraft-enabled="true"] .vector-toc .vector-toc-level-1-active:not(.vector-toc-list-item-expanded) > .vector-toc-link {
+  background-color: var(--wc-surface-elevated) !important;
+  color: var(--wc-text-strong) !important;
+  font-weight: 600 !important;
+}
+
+html[data-wikicraft-enabled="true"] .vector-toc .vector-toc-link {
+  color: var(--wc-text-secondary) !important;
+  padding: 5px 10px !important;
+  margin: 1px 0 !important;
+  border-radius: var(--wc-radius-sm) !important;
+  font-size: 13.5px !important;
+  line-height: 1.45 !important;
+  display: block !important;
+  text-decoration: none !important;
+  transition: background-color 0.12s ease, color 0.12s ease !important;
+}
+
+html[data-wikicraft-enabled="true"] .vector-toc .vector-toc-link:hover {
+  background-color: var(--wc-surface) !important;
+  color: var(--wc-text-strong) !important;
+}
+
+html[data-wikicraft-enabled="true"] .vector-toc .vector-toc-numb {
+  color: var(--wc-text-muted) !important;
+  margin-right: 4px !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   4. Article Typography, Headings & Links
+   ========================================================================== */
+
+html[data-wikicraft-enabled="true"] #firstHeading,
+html[data-wikicraft-enabled="true"] .mw-first-heading {
+  font-family: var(--wc-font-sans) !important;
+  font-size: clamp(1.85rem, 3vw, 2.35rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--wc-text-strong) !important;
+  border-bottom: none !important;
+  margin-top: 12px !important;
+  margin-bottom: 6px !important;
+  padding-bottom: 0 !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-body-header {
+  border-bottom: 1px solid var(--wc-border) !important;
+  padding-bottom: 10px !important;
+  margin-bottom: 16px !important;
+}
+
+/* Page toolbar (Article / Talk / Read / Edit / History / zh-tw tabs) */
+html[data-wikicraft-enabled="true"] .vector-page-toolbar {
+  border-bottom: 1px solid var(--wc-border) !important;
+  margin-bottom: 24px !important;
+}
+
+html[data-wikicraft-enabled="true"] .vector-page-toolbar-container {
+  font-size: 13px !important;
+  color: var(--wc-text-secondary) !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-list-item a,
+html[data-wikicraft-enabled="true"] .vector-menu-tabs .mw-list-item a {
+  color: var(--wc-text-secondary) !important;
+  text-decoration: none !important;
+}
+
+html[data-wikicraft-enabled="true"] .vector-menu-tabs .mw-list-item.selected a {
+  color: var(--wc-text-strong) !important;
+  font-weight: 600 !important;
+  border-bottom-color: var(--wc-text-strong) !important;
+}
+
+html[data-wikicraft-enabled="true"] #siteSub {
+  color: var(--wc-text-muted) !important;
+  font-size: 12.5px !important;
+  margin-bottom: 20px !important;
+}
+
+/* Main article prose */
+html[data-wikicraft-enabled="true"] #mw-content-text,
+html[data-wikicraft-enabled="true"] .mw-body-content,
+html[data-wikicraft-enabled="true"] .mw-parser-output {
+  font-family: var(--wc-font-sans) !important;
+  font-size: 16.5px !important;
+  line-height: 1.8 !important;
+  color: var(--wc-text) !important;
+  letter-spacing: 0.008em !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-parser-output p {
+  margin: 0 0 1.2em 0 !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-parser-output ul,
+html[data-wikicraft-enabled="true"] .mw-parser-output ol {
+  margin: 0.4em 0 1.2em 1.4em !important;
+  padding-left: 0.4em !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-parser-output li {
+  margin-bottom: 0.35em !important;
+  line-height: 1.75 !important;
+}
+
+/* Section Headings */
+html[data-wikicraft-enabled="true"] .mw-heading,
+html[data-wikicraft-enabled="true"] .mw-parser-output h2,
+html[data-wikicraft-enabled="true"] .mw-parser-output h3,
+html[data-wikicraft-enabled="true"] .mw-parser-output h4 {
+  font-family: var(--wc-font-sans) !important;
+  color: var(--wc-text-strong) !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-heading2,
+html[data-wikicraft-enabled="true"] .mw-parser-output > h2 {
+  margin-top: 2.2em !important;
+  margin-bottom: 0.85em !important;
+  padding-bottom: 0.35em !important;
+  border-bottom: 1px solid var(--wc-border) !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-heading2 h2,
+html[data-wikicraft-enabled="true"] .mw-parser-output h2 {
+  font-size: 1.45rem !important;
+  font-weight: 650 !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.015em !important;
+  border: none !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-heading3,
+html[data-wikicraft-enabled="true"] .mw-parser-output > h3 {
+  margin-top: 1.6em !important;
+  margin-bottom: 0.55em !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-heading3 h3,
+html[data-wikicraft-enabled="true"] .mw-parser-output h3 {
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.01em !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-heading4 h4,
+html[data-wikicraft-enabled="true"] .mw-parser-output h4 {
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+}
+
+/* Subtle section [edit] links — only appear when hovering the heading */
+html[data-wikicraft-enabled="true"] .mw-editsection {
+  opacity: 0 !important;
+  transition: opacity 0.15s ease !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  margin-left: 8px !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-heading:hover .mw-editsection,
+html[data-wikicraft-enabled="true"] h2:hover .mw-editsection,
+html[data-wikicraft-enabled="true"] h3:hover .mw-editsection,
+html[data-wikicraft-enabled="true"] h4:hover .mw-editsection {
+  opacity: 0.75 !important;
+}
+
+html[data-wikicraft-enabled="true"] .mw-editsection-bracket {
+  display: none !important;
+}
+
+/* Links */
+html[data-wikicraft-enabled="true"] .mw-parser-output a,
+html[data-wikicraft-enabled="true"] #content a {
+  color: var(--wc-link);
+  text-decoration: none;
+  text-underline-offset: 3px;
+  transition: color 0.12s ease, text-decoration-color 0.12s ease;
+}
+
+html[data-wikicraft-enabled="true"] .mw-parser-output a:hover,
+html[data-wikicraft-enabled="true"] #content a:hover {
+  color: var(--wc-accent-hover);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+}
+
+html[data-wikicraft-enabled="true"] .mw-parser-output a:visited {
+  color: var(--wc-link-visited);
+}
+
+html[data-wikicraft-enabled="true"] .mw-parser-output a.new,
+html[data-wikicraft-enabled="true"] #content a.new {
+  color: var(--wc-link-red) !important;
+}
+
+/* Citation Superscript Pills [1] */
+html[data-wikicraft-enabled="true"] sup.reference {
+  font-size: 0.72em !important;
+  line-height: 1 !important;
+  vertical-align: super !important;
+  margin: 0 1px !important;
+}
+
+html[data-wikicraft-enabled="true"] sup.reference a {
+  display: inline-block !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
+  background-color: var(--wc-surface-elevated) !important;
+  color: var(--wc-text-secondary) !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  transition: background-color 0.12s ease, color 0.12s ease !important;
+}
+
+html[data-wikicraft-enabled="true"] sup.reference a:hover {
+  background-color: var(--wc-accent-soft) !important;
+  color: var(--wc-accent) !important;
+  text-decoration: none !important;
+}
+
+/* ==========================================================================
+   5. Card-Styled Infoboxes, Sidebars & Data Tables
+   ========================================================================== */
+
+html[data-wikicraft-enabled="true"] .infobox,
+html[data-wikicraft-enabled="true"] .infobox_v2,
+html[data-wikicraft-enabled="true"] .infobox_v3,
+html[data-wikicraft-enabled="true"] table.sidebar,
+html[data-wikicraft-enabled="true"] .vertical-navbox {
+  background-color: var(--wc-surface) !important;
+  color: var(--wc-text) !important;
+  border: 1px solid var(--wc-border) !important;
+  border-radius: var(--wc-radius-lg) !important;
+  box-shadow: var(--wc-shadow-card) !important;
+  padding: 14px !important;
+  margin: 0.4em 0 1.5em 1.8em !important;
+  width: 310px !important;
+  max-width: 100% !important;
+  font-size: 13.5px !important;
+  line-height: 1.55 !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  overflow: hidden !important;
+}
+
+html[data-wikicraft-enabled="true"] .infobox caption,
+html[data-wikicraft-enabled="true"] .infobox .infobox-above,
+html[data-wikicraft-enabled="true"] .infobox .infobox-title,
+html[data-wikicraft-enabled="true"] .infobox .fn,
+html[data-wikicraft-enabled="true"] table.sidebar .sidebar-title,
+html[data-wikicraft-enabled="true"] table.sidebar .sidebar-pretitle {
+  background-color: transparent !important;
+  color: var(--wc-text-strong) !important;
+  font-size: 15.5px !important;
+  font-weight: 700 !important;
+  padding: 6px 8px 10px 8px !important;
+  text-align: center !important;
+}
+
+html[data-wikicraft-enabled="true"] .infobox th,
+html[data-wikicraft-enabled="true"] .infobox td,
+html[data-wikicraft-enabled="true"] table.sidebar th,
+html[data-wikicraft-enabled="true"] table.sidebar td,
+html[data-wikicraft-enabled="true"] .vertical-navbox th,
+html[data-wikicraft-enabled="true"] .vertical-navbox td {
+  border-color: var(--wc-border) !important;
+  padding: 6px 8px !important;
+  vertical-align: top !important;
+}
+
+/* Section headers inside Infoboxes */
+html[data-wikicraft-enabled="true"] .infobox .infobox-header,
+html[data-wikicraft-enabled="true"] .infobox .infobox-subheader,
+html[data-wikicraft-enabled="true"] .infobox th[colspan="2"]:not(.infobox-above),
+html[data-wikicraft-enabled="true"] table.sidebar .sidebar-heading {
+  background-color: var(--wc-surface-elevated) !important;
+  color: var(--wc-text-strong) !important;
+  font-weight: 600 !important;
+  font-size: 12.5px !important;
+  letter-spacing: 0.02em !important;
+  border-radius: var(--wc-radius-sm) !important;
+  padding: 6px 10px !important;
+  margin-top: 4px !important;
+  text-align: center !important;
+}
+
+html[data-wikicraft-enabled="true"] .infobox .infobox-label,
+html[data-wikicraft-enabled="true"] .infobox th[scope="row"] {
+  background-color: transparent !important;
+  color: var(--wc-text-secondary) !important;
+  font-weight: 500 !important;
+  width: 36% !important;
+  border-top: 1px solid var(--wc-border) !important;
+}
+
+html[data-wikicraft-enabled="true"] .infobox .infobox-data,
+html[data-wikicraft-enabled="true"] .infobox th[scope="row"] + td {
+  background-color: transparent !important;
+  color: var(--wc-text) !important;
+  border-top: 1px solid var(--wc-border) !important;
+}
+
+html[data-wikicraft-enabled="true"] .infobox img {
+  border-radius: var(--wc-radius-sm) !important;
+}
+
+/* Sanitize elements flagged by our inline-style normalizer */
+html[data-wikicraft-enabled="true"] [data-wc-bg-sanitized="surface"] {
+  background-color: var(--wc-surface) !important;
+  background-image: none !important;
+  color: var(--wc-text) !important;
+}
+
+html[data-wikicraft-enabled="true"] [data-wc-bg-sanitized="elevated"] {
+  background-color: var(--wc-surface-elevated) !important;
+  background-image: none !important;
+  color: var(--wc-text-strong) !important;
+}
+
+html[data-wikicraft-enabled="true"] [data-wc-text-sanitized="true"] {
+  color: var(--wc-text) !important;
+}
+
+/* Data Tables (.wikitable) */
+html[data-wikicraft-enabled="true"] table.wikitable {
+  background-color: var(--wc-bg) !important;
+  color: var(--wc-text) !important;
+  border: 1px solid var(--wc-border) !important;
+  border-radius: var(--wc-radius-md) !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin: 1.4em 0 !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+  box-shadow: var(--wc-shadow-sm) !important;
+  overflow: hidden !important;
+}
+
+html[data-wikicraft-enabled="true"] table.wikitable > tr > th,
+html[data-wikicraft-enabled="true"] table.wikitable > * > tr > th {
+  background-color: var(--wc-surface) !important;
+  color: var(--wc-text-strong) !important;
+  font-weight: 600 !important;
+  padding: 9px 12px !important;
+  border-bottom: 1px solid var(--wc-border) !important;
+  border-right: 1px solid var(--wc-border) !important;
+  border-top: none !important;
+  border-left: none !important;
+  text-align: left !important;
+}
+
+html[data-wikicraft-enabled="true"] table.wikitable > tr > td,
+html[data-wikicraft-enabled="true"] table.wikitable > * > tr > td {
+  background-color: transparent !important;
+  color: var(--wc-text) !important;
+  padding: 8px 12px !important;
+  border-bottom: 1px solid var(--wc-border) !important;
+  border-right: 1px solid var(--wc-border) !important;
+  border-top: none !important;
+  border-left: none !important;
+}
+
+html[data-wikicraft-enabled="true"] table.wikitable tr:last-child > td,
+html[data-wikicraft-enabled="true"] table.wikitable tr:last-child > th {
+  border-bottom: none !important;
+}
+
+html[data-wikicraft-enabled="true"] table.wikitable tr > *:last-child {
+  border-right: none !important;
+}
+
+html[data-wikicraft-enabled="true"] table.wikitable tbody tr:hover > td {
+  background-color: var(--wc-bg-subtle) !important;
+}
+
+/* Bottom Navigation Boxes (.navbox) */
+html[data-wikicraft-enabled="true"] .navbox,
+html[data-wikicraft-enabled="true"] .navbox-inner,
+html[data-wikicraft-enabled="true"] .navbox-subgroup {
+  background-color: var(--wc-surface) !important;
+  color: var(--wc-text) !important;
+  border: 1px solid var(--wc-border) !important;
+  border-radius: var(--wc-radius-md) !important;
+  font-size: 13px !important;
+  margin-top: 16px !important;
+  overflow: hidden !important;
+}
+
+html[data-wikicraft-enabled="true"] .navbox-title,
+html[data-wikicraft-enabled="true"] .navbox-abovebelow,
+html[data-wikicraft-enabled="true"] .navbox th {
+  background-color: var(--wc-surface-elevated) !important;
+  color: var(--wc-text-strong) !important;
+  border-color: var(--wc-border) !important;
+  padding: 6px 12px !important;
+}
+
+html[data-wikicraft-enabled="true"] .navbox-group {
+  background-color: var(--wc-surface) !important;
+  color: var(--wc-text-secondary) !important;
+  font-weight: 600 !important;
+  border-color: var(--wc-border) !important;
+}
+
+html[data-wikicraft-enabled="true"] .navbox-list,
+html[data-wikicraft-enabled="true"] .navbox-even,
+html[data-wikicraft-enabled="true"] .navbox-odd {
+  background-color: var(--wc-bg) !important;
+  color: var(--wc-text) !important;
+  border-color: var(--wc-border) !important;
+}
+
+/* ==========================================================================
+   6. Callouts, Hatnotes, Message Boxes, Quotes, Code & Images
+   ========================================================================== */
+
+/* Hatnotes (Disambiguation / Main article callout) */
+html[data-wikicraft-enabled="true"] .hatnote,
+html[data-wikicraft-enabled="true"] .dablink,
+html[data-wikicraft-enabled="true"] .rellink {
+  background-color: var(--wc-callout-bg) !important;
+  color: var(--wc-text-secondary) !important;
+  border: 1px solid var(--wc-border) !important;
+  border-left: 3px solid var(--wc-accent) !important;
+  border-radius: var(--wc-radius-sm) !important;
+  padding: 8px 14px !important;
+  margin: 0.6em 0 1.2em 0 !important;
+  font-style: normal !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+}
+
+/* Article Message Boxes (.ambox, .tmbox, .ombox) */
+html[data-wikicraft-enabled="true"] .ambox,
+html[data-wikicraft-enabled="true"] .tmbox,
+html[data-wikicraft-enabled="true"] .ombox,
+html[data-wikicraft-enabled="true"] .cmbox,
+html[data-wikicraft-enabled="true"] .fmbox {
+  background-color: var(--wc-surface) !important;
+  color: var(--wc-text-secondary) !important;
+  border: 1px solid var(--wc-border) !important;
+  border-radius: var(--wc-radius-md) !important;
+  padding: 10px 14px !important;
+  margin: 12px 0 !important;
+  font-size: 13.5px !important;
+  box-shadow: none !important;
+}
+
+html[data-wikicraft-enabled="true"] .ambox td,
+html[data-wikicraft-enabled="true"] .ambox th {
+  background-color: transparent !important;
+  color: var(--wc-text-secondary) !important;
+  border: none !important;
+}
+
+/* Blockquotes */
+html[data-wikicraft-enabled="true"] blockquote,
+html[data-wikicraft-enabled="true"] .templatequote {
+  background-color: var(--wc-surface) !important;
+  border-left: 3px solid var(--wc-border-strong) !important;
+  border-radius: 0 var(--wc-radius-sm) var(--wc-radius-sm) 0 !important;
+  padding: 12px 18px !important;
+  margin: 1.2em 0 !important;
+  color: var(--wc-text-secondary) !important;
+}
+
+/* Code & Preformatted blocks */
+html[data-wikicraft-enabled="true"] code,
+html[data-wikicraft-enabled="true"] pre,
+html[data-wikicraft-enabled="true"] .mw-code {
+  font-family: var(--wc-font-mono) !important;
+  background-color: var(--wc-code-bg) !important;
+  color: var(--wc-text-strong) !important;
+  border: 1px solid var(--wc-border) !important;
+  border-radius: var(--wc-radius-sm) !important;
+}
+
+html[data-wikicraft-enabled="true"] code {
+  padding: 2px 5px !important;
+  font-size: 0.875em !important;
+}
+
+html[data-wikicraft-enabled="true"] pre {
+  padding: 14px 16px !important;
+  overflow-x: auto !important;
+  line-height: 1.6 !important;
+}
+
+/* Image Thumbnails & Figures */
+html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"],
+html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"],
+html[data-wikicraft-enabled="true"] .thumbinner {
+  background-color: var(--wc-surface) !important;
+  border: 1px solid var(--wc-border) !important;
+  border-radius: var(--wc-radius-md) !important;
+  padding: 8px !important;
+  box-shadow: var(--wc-shadow-sm) !important;
+  overflow: hidden !important;
+}
+
+html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"] > a:first-child > img,
+html[data-wikicraft-enabled="true"] .thumbimage {
+  border: none !important;
+  border-radius: var(--wc-radius-sm) !important;
+}
+
+html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"] > figcaption,
+html[data-wikicraft-enabled="true"] .thumbcaption {
+  background-color: transparent !important;
+  color: var(--wc-text-secondary) !important;
+  border: none !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  padding: 8px 4px 2px 4px !important;
+}
+
+/* Math Formulas & Black-ink SVGs in Dark Mode */
+html[data-wikicraft-enabled="true"][data-wikicraft-theme="dark"] .mwe-math-fallback-image-inline,
+html[data-wikicraft-enabled="true"][data-wikicraft-theme="dark"] .mwe-math-fallback-image-display,
+html[data-wikicraft-enabled="true"][data-wikicraft-theme="dark"] img.tex {
+  filter: invert(0.88) hue-rotate(180deg) !important;
+}
+
+/* Category Links Box (#catlinks) */
+html[data-wikicraft-enabled="true"] #catlinks {
+  background-color: var(--wc-surface) !important;
+  border: 1px solid var(--wc-border) !important;
+  border-radius: var(--wc-radius-md) !important;
+  padding: 12px 16px !important;
+  margin-top: 28px !important;
+  font-size: 13.5px !important;
+}
+
+html[data-wikicraft-enabled="true"] #mw-normal-catlinks ul li {
+  border-left: none !important;
+  padding: 0 !important;
+  margin: 3px 4px 3px 0 !important;
+}
+
+html[data-wikicraft-enabled="true"] #mw-normal-catlinks ul li a {
+  display: inline-block !important;
+  background-color: var(--wc-surface-elevated) !important;
+  color: var(--wc-text-secondary) !important;
+  padding: 2px 9px !important;
+  border-radius: 999px !important;
+  font-size: 12.5px !important;
+  text-decoration: none !important;
+}
+
+html[data-wikicraft-enabled="true"] #mw-normal-catlinks ul li a:hover {
+  background-color: var(--wc-accent-soft) !important;
+  color: var(--wc-accent) !important;
+}
+
+/* Reference Tooltip / Hovercard Popups (Popups extension / Reference Previews) */
+html[data-wikicraft-enabled="true"] .mwe-popups {
+  background-color: var(--wc-surface) !important;
+  border: 1px solid var(--wc-border-strong) !important;
+  border-radius: var(--wc-radius-md) !important;
+  box-shadow: var(--wc-shadow-float) !important;
+}
+
+html[data-wikicraft-enabled="true"] .mwe-popups .mwe-popups-container,
+html[data-wikicraft-enabled="true"] .mwe-popups .mwe-popups-extract {
+  background-color: var(--wc-surface) !important;
+  color: var(--wc-text) !important;
+  font-family: var(--wc-font-sans) !important;
+}
+
+html[data-wikicraft-enabled="true"] .mwe-popups .mwe-popups-extract[dir="ltr"]::after {
+  background-image: linear-gradient(to right, transparent, var(--wc-surface) 50%) !important;
+}
+
+/* Footer */
+html[data-wikicraft-enabled="true"] .mw-footer-container,
+html[data-wikicraft-enabled="true"] #footer {
+  border-top: 1px solid var(--wc-border) !important;
+  color: var(--wc-text-muted) !important;
+}
+
+/* ==========================================================================
+   7. WikiCraft In-Page Header Toggle Pill
+   ========================================================================== */
+
+.wc-header-toggle-wrapper {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.wc-header-toggle-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid var(--wc-border, #e5e5e3);
+  background-color: var(--wc-surface, #f7f7f5);
+  color: var(--wc-text-secondary, #555);
+  font-family: var(--wc-font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.wc-header-toggle-btn:hover {
+  background-color: var(--wc-surface-elevated, #ebebea);
+  color: var(--wc-text-strong, #191919);
+  border-color: var(--wc-border-strong, #d4d4d0);
+}
+
+.wc-header-toggle-btn:active {
+  transform: scale(0.97);
+}
+
+.wc-header-toggle-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+}
+
+html:not([data-wikicraft-enabled="true"]) .wc-header-toggle-btn {
+  opacity: 0.55;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border-color: #d1d5db;
+}
