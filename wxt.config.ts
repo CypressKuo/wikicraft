@@ -1,6 +1,7 @@
 import { defineConfig } from 'wxt';
 
 export default defineConfig({
+  outDir: 'dist',
   manifest: {
     name: '__MSG_extName__',
     description: '__MSG_extDescription__',
