@@ -49,16 +49,23 @@ function getTooltipText(): string {
 }
 
 /**
- * Determine if an element is likely a pure color swatch (e.g., sports team kit box, metro line color badge)
- * that should keep its intentional inline background color.
+ * Determine if an element is an intentional color swatch or chart bar (e.g., climate chart bar,
+ * sports kit box, metro line color badge, or marked with .notheme) that should keep its inline color.
  */
-function isColorSwatch(el: HTMLElement): boolean {
+function shouldPreserveInlineColor(el: HTMLElement): boolean {
+  if (el.classList.contains('notheme') || el.closest('.notheme')) {
+    return true;
+  }
   const text = (el.textContent || '').replace(/\u00a0/g, '').trim();
   if (text.length === 0 && el.children.length === 0) {
     return true;
   }
   const widthAttr = el.getAttribute('width') || el.style.width;
   if (widthAttr && /^(1?\d|20)(px)?$/.test(widthAttr.trim()) && text.length <= 2) {
+    return true;
+  }
+  // Preserve absolute-positioned chart bars (e.g. Wikipedia climate chart columns)
+  if (el.style.position === 'absolute' && text.length <= 3) {
     return true;
   }
   return false;
@@ -70,9 +77,9 @@ function isColorSwatch(el: HTMLElement): boolean {
  */
 function sanitizeInlineStyles(root: ParentNode = document): void {
   const containerSelector =
-    '.infobox, .infobox_v2, .infobox_v3, table.wikitable, .navbox, table.sidebar, .vertical-navbox, .ambox, .tmbox, .ombox, .hatnote';
+    '.infobox, .infobox_v2, .infobox_v3, .infobox-subbox, table.wikitable, .navbox, table.sidebar, .vertical-navbox, .ambox, .tmbox, .ombox, .cmbox, .fmbox, .hatnote';
   const candidates = root.querySelectorAll<HTMLElement>(
-    `${containerSelector}, .infobox [style], .infobox_v2 [style], .infobox_v3 [style], table.wikitable [style], .navbox [style], table.sidebar [style], .vertical-navbox [style], .ambox [style], .hatnote [style]`
+    `${containerSelector}, .infobox [style], .infobox_v2 [style], .infobox_v3 [style], .infobox-subbox [style], table.wikitable [style], .navbox [style], table.sidebar [style], .vertical-navbox [style], .ambox [style], .hatnote [style]`
   );
 
   candidates.forEach((el) => {
@@ -82,7 +89,7 @@ function sanitizeInlineStyles(root: ParentNode = document): void {
     const styleAttr = el.getAttribute('style');
     if (!styleAttr) return;
 
-    if (isColorSwatch(el)) return;
+    if (shouldPreserveInlineColor(el)) return;
 
     const hasBg = /background(-color)?\s*:/i.test(styleAttr);
     const hasColor = /(^|;)\s*color\s*:/i.test(styleAttr);
@@ -117,6 +124,40 @@ export default defineContentScript({
     let currentSettings: WikiCraftSettings = getSyncCachedSettings();
     let toggleBtn: HTMLButtonElement | null = null;
 
+    function rememberOriginalWikiTheme(root: HTMLElement): void {
+      if (root.dataset.wcOrigWikiTheme) return;
+      if (root.classList.contains('skin-theme-clientpref-night')) {
+        root.dataset.wcOrigWikiTheme = 'night';
+      } else if (root.classList.contains('skin-theme-clientpref-os')) {
+        root.dataset.wcOrigWikiTheme = 'os';
+      } else {
+        root.dataset.wcOrigWikiTheme = 'day';
+      }
+    }
+
+    function syncWikiNativeThemeClasses(root: HTMLElement, resolved: 'light' | 'dark'): void {
+      rememberOriginalWikiTheme(root);
+      root.classList.remove(
+        'skin-theme-clientpref-day',
+        'skin-theme-clientpref-night',
+        'skin-theme-clientpref-os'
+      );
+      root.classList.add(
+        resolved === 'dark' ? 'skin-theme-clientpref-night' : 'skin-theme-clientpref-day'
+      );
+    }
+
+    function restoreWikiNativeThemeClasses(root: HTMLElement): void {
+      const orig = root.dataset.wcOrigWikiTheme;
+      if (!orig) return;
+      root.classList.remove(
+        'skin-theme-clientpref-day',
+        'skin-theme-clientpref-night',
+        'skin-theme-clientpref-os'
+      );
+      root.classList.add(`skin-theme-clientpref-${orig}`);
+    }
+
     function applyToDOM(settings: WikiCraftSettings): void {
       currentSettings = settings;
       setSyncCachedSettings(settings);
@@ -126,28 +167,11 @@ export default defineContentScript({
         const resolved = resolveThemeMode(settings.themeMode);
         root.setAttribute('data-wikicraft-enabled', 'true');
         root.setAttribute('data-wikicraft-theme', resolved);
-
-        // Prevent Wikipedia's native dark mode from clashing or double-inverting assets
-        if (root.classList.contains('skin-theme-clientpref-night')) {
-          root.dataset.wcOrigWikiTheme = 'night';
-          root.classList.remove('skin-theme-clientpref-night');
-          root.classList.add('skin-theme-clientpref-day');
-        } else if (root.classList.contains('skin-theme-clientpref-os')) {
-          root.dataset.wcOrigWikiTheme = 'os';
-          root.classList.remove('skin-theme-clientpref-os');
-          root.classList.add('skin-theme-clientpref-day');
-        }
+        syncWikiNativeThemeClasses(root, resolved);
       } else {
         root.removeAttribute('data-wikicraft-enabled');
         root.removeAttribute('data-wikicraft-theme');
-
-        if (root.dataset.wcOrigWikiTheme === 'night') {
-          root.classList.remove('skin-theme-clientpref-day');
-          root.classList.add('skin-theme-clientpref-night');
-        } else if (root.dataset.wcOrigWikiTheme === 'os') {
-          root.classList.remove('skin-theme-clientpref-day');
-          root.classList.add('skin-theme-clientpref-os');
-        }
+        restoreWikiNativeThemeClasses(root);
       }
 
       updateHeaderToggleUI();
@@ -232,10 +256,15 @@ export default defineContentScript({
 
     // 5. Run DOM enhancements when DOM is ready
     const onDomReady = () => {
+      if (currentSettings.enabled) {
+        syncWikiNativeThemeClasses(
+          document.documentElement,
+          resolveThemeMode(currentSettings.themeMode)
+        );
+      }
       injectHeaderToggle();
       sanitizeInlineStyles(document);
 
-      // Observe dynamic article updates (e.g. collapsible navboxes or VE previews)
       const contentEl = document.getElementById('mw-content-text');
       if (contentEl) {
         const observer = new MutationObserver((mutations) => {
