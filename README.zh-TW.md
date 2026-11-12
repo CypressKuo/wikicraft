@@ -48,12 +48,6 @@ npm run zip
 
 ---
 
-## 📄 Chrome Web Store 上架說明
-
-上架中英文文案、單一用途宣告與隱私權權限審核填表資訊請參閱 [STORE_LISTING.md](./STORE_LISTING.md)。
-
----
-
 ## 🔒 隱私權承諾
 
 WikiCraft 僅在 `*.wikipedia.org` 網域於本地端執行，完全不收集、不追蹤、亦不傳輸任何使用者資料或瀏覽紀錄。
