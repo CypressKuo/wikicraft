@@ -4,6 +4,10 @@
 
 A clean, **Notion & Craft-inspired reading theme** for Wikipedia (`*.wikipedia.org`), built with **WXT + TypeScript + Manifest V3**.
 
+![WikiCraft Before and After Comparison](./assets/wikicraft-before-after-1280x800.png)
+
+![WikiCraft Seamless Light and Dark Modes](./assets/wikicraft-light-dark-1280x800.png)
+
 ---
 
 ## ✨ Key Features

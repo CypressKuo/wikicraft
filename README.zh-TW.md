@@ -4,6 +4,10 @@
 
 受 **Notion** 與 **Craft** 啟發的維基百科（Wikipedia, `*.wikipedia.org`）現代極簡閱讀主題，基於 **WXT + TypeScript + Manifest V3** 開發。
 
+![WikiCraft 前後對照預覽](./assets/wikicraft-before-after-zhTW-1280x800.png)
+
+![WikiCraft 淺色與深色雙模式](./assets/wikicraft-light-dark-zhTW-1280x800.png)
+
 ---
 
 ## ✨ 核心特色
