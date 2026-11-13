@@ -181,9 +181,9 @@ html[data-wikicraft-enabled="true"] .vector-header-container .mw-header {
   min-height: 54px !important;
 }
 
-/* Invert Wikipedia wordmark/tagline cleanly in dark mode on dark header */
-html[data-wikicraft-enabled="true"][data-wikicraft-theme="dark"] .mw-logo-wordmark,
-html[data-wikicraft-enabled="true"][data-wikicraft-theme="dark"] .mw-logo-tagline {
+/* Invert Wikipedia wordmark/tagline in dark mode only if not already handled by .skin-invert */
+html[data-wikicraft-enabled="true"][data-wikicraft-theme="dark"] .mw-logo-container:not(.skin-invert) .mw-logo-wordmark,
+html[data-wikicraft-enabled="true"][data-wikicraft-theme="dark"] .mw-logo-container:not(.skin-invert) .mw-logo-tagline {
   filter: invert(0.92) hue-rotate(180deg) !important;
 }
 
