@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [1.0.1] - 2026-11-13
+
 ### Added
 - **Promotional Previews**: Added localized English and Traditional Chinese (`zh_TW`) Before/After and Light/Dark preview banners in `assets/`, and embedded them into [README.md](./README.md) and [README.zh-TW.md](./README.zh-TW.md).
 
