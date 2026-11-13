@@ -2,6 +2,9 @@
 
 **English** | [繁體中文](./README.zh-TW.md)
 
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install%20WikiCraft-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/wikicraft-%E2%80%94-modern-theme/ognfjghcddiamjpbolbkogkoccdplakj)
+![Safari Extension](https://img.shields.io/badge/Safari%20(macOS)-In%20Review-006CFF?style=for-the-badge&logo=safari&logoColor=white)
+
 A clean, **Notion & Craft-inspired reading theme** for Wikipedia (`*.wikipedia.org`), built with **WXT + TypeScript + Manifest V3**.
 
 ![WikiCraft Before and After Comparison](./assets/wikicraft-before-after-1280x800.png)

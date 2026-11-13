@@ -2,6 +2,9 @@
 
 [English](./README.md) | **繁體中文**
 
+[![Chrome 線上應用程式商店](https://img.shields.io/badge/Chrome%20Web%20Store-立即安裝%20WikiCraft-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/wikicraft-%E2%80%94-modern-theme/ognfjghcddiamjpbolbkogkoccdplakj)
+![Safari 延伸功能](https://img.shields.io/badge/Safari%20(macOS)-審查中-006CFF?style=for-the-badge&logo=safari&logoColor=white)
+
 受 **Notion** 與 **Craft** 啟發的維基百科（Wikipedia, `*.wikipedia.org`）現代極簡閱讀主題，基於 **WXT + TypeScript + Manifest V3** 開發。
 
 ![WikiCraft 前後對照預覽](./assets/wikicraft-before-after-zhTW-1280x800.png)
