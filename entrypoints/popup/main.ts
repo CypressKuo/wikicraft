@@ -113,9 +113,9 @@ async function initPopup(): Promise<void> {
       enabled: enableToggle.checked,
     };
     render(optimistic);
-    const updated = await saveSettings({ enabled: enableToggle.checked });
+    notifyActiveTab(optimistic);
+    const updated = await saveSettings({ enabled: optimistic.enabled });
     render(updated);
-    notifyActiveTab(updated);
   });
 
   segmentButtons.forEach((btn) => {
@@ -127,9 +127,9 @@ async function initPopup(): Promise<void> {
         themeMode: mode,
       };
       render(optimistic);
+      notifyActiveTab(optimistic);
       const updated = await saveSettings({ enabled: true, themeMode: mode });
       render(updated);
-      notifyActiveTab(updated);
     });
   });
 

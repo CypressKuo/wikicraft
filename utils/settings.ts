@@ -26,7 +26,7 @@ function normalizeSettings(raw: Partial<WikiCraftSettings> | undefined): WikiCra
 }
 
 /**
- * Safely read a key from a chrome.storage area (supports both MV3 Promise & MV2 callback APIs).
+ * Safely read a key from a chrome.storage area with a timeout guard so it never hangs.
  */
 function storageGet(area: chrome.storage.StorageArea | undefined, key: string): Promise<Record<string, unknown>> {
   return new Promise((resolve) => {
@@ -34,40 +34,36 @@ function storageGet(area: chrome.storage.StorageArea | undefined, key: string): 
       resolve({});
       return;
     }
+    let settled = false;
+    const finish = (res: Record<string, unknown>) => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timer);
+        resolve(res);
+      }
+    };
+    const timer = setTimeout(() => finish({}), 800);
+
     try {
-      let settled = false;
       const maybePromise = (area.get as unknown as (
         k: string,
         cb: (res: Record<string, unknown>) => void
       ) => Promise<Record<string, unknown>> | void)(key, (res) => {
-        if (!settled) {
-          settled = true;
-          resolve(res || {});
-        }
+        finish(res || {});
       });
       if (maybePromise && typeof (maybePromise as Promise<Record<string, unknown>>).then === 'function') {
         (maybePromise as Promise<Record<string, unknown>>)
-          .then((res) => {
-            if (!settled) {
-              settled = true;
-              resolve(res || {});
-            }
-          })
-          .catch(() => {
-            if (!settled) {
-              settled = true;
-              resolve({});
-            }
-          });
+          .then((res) => finish(res || {}))
+          .catch(() => finish({}));
       }
     } catch {
-      resolve({});
+      finish({});
     }
   });
 }
 
 /**
- * Safely write items to a chrome.storage area (supports both MV3 Promise & MV2 callback APIs).
+ * Safely write items to a chrome.storage area with a timeout guard so it never hangs.
  */
 function storageSet(area: chrome.storage.StorageArea | undefined, items: Record<string, unknown>): Promise<void> {
   return new Promise((resolve) => {
@@ -75,34 +71,28 @@ function storageSet(area: chrome.storage.StorageArea | undefined, items: Record<
       resolve();
       return;
     }
+    let settled = false;
+    const finish = () => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timer);
+        resolve();
+      }
+    };
+    const timer = setTimeout(finish, 800);
+
     try {
-      let settled = false;
       const maybePromise = (area.set as unknown as (
         it: Record<string, unknown>,
         cb: () => void
       ) => Promise<void> | void)(items, () => {
-        if (!settled) {
-          settled = true;
-          resolve();
-        }
+        finish();
       });
       if (maybePromise && typeof (maybePromise as Promise<void>).then === 'function') {
-        (maybePromise as Promise<void>)
-          .then(() => {
-            if (!settled) {
-              settled = true;
-              resolve();
-            }
-          })
-          .catch(() => {
-            if (!settled) {
-              settled = true;
-              resolve();
-            }
-          });
+        (maybePromise as Promise<void>).then(finish).catch(finish);
       }
     } catch {
-      resolve();
+      finish();
     }
   });
 }
@@ -145,7 +135,7 @@ export function setSyncCachedSettings(settings: WikiCraftSettings): void {
 }
 
 /**
- * Load settings from chrome.storage.local (primary for offline/iOS reliability) with fallback to sync
+ * Load settings from chrome.storage.local (primary for reliability) with fallback to sync
  */
 export async function loadSettings(): Promise<WikiCraftSettings> {
   try {
@@ -164,7 +154,7 @@ export async function loadSettings(): Promise<WikiCraftSettings> {
 }
 
 /**
- * Save partial or full settings to both chrome.storage.local and chrome.storage.sync
+ * Save partial or full settings to chrome.storage.local and mirror to chrome.storage.sync in background
  */
 export async function saveSettings(partial: Partial<WikiCraftSettings>): Promise<WikiCraftSettings> {
   const current = await loadSettings();
@@ -172,10 +162,8 @@ export async function saveSettings(partial: Partial<WikiCraftSettings>): Promise
     ...current,
     ...partial,
   };
-  await Promise.all([
-    storageSet(chrome?.storage?.local, { [STORAGE_KEY]: next }),
-    storageSet(chrome?.storage?.sync, { [STORAGE_KEY]: next }),
-  ]);
+  await storageSet(chrome?.storage?.local, { [STORAGE_KEY]: next });
+  void storageSet(chrome?.storage?.sync, { [STORAGE_KEY]: next });
   return next;
 }
 
