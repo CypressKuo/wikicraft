@@ -70,19 +70,12 @@ body {
 }
 
 .brand-logo {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
-  background: var(--p-surface);
-  border: 1px solid var(--p-border);
-  color: var(--p-text);
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 17px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: -0.03em;
+  display: block;
+  object-fit: cover;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 .brand-title {
