@@ -42,6 +42,18 @@ function applyLocalization(): void {
 async function initPopup(): Promise<void> {
   applyLocalization();
 
+  const versionEl = document.getElementById('version-tag');
+  if (versionEl) {
+    try {
+      const version = chrome?.runtime?.getManifest?.().version;
+      if (version) {
+        versionEl.textContent = `v${version}`;
+      }
+    } catch {
+      // Keep HTML fallback
+    }
+  }
+
   const enableToggle = document.getElementById('enable-toggle') as HTMLInputElement;
   const statusBadge = document.getElementById('status-badge') as HTMLElement;
   const themeSection = document.getElementById('theme-section') as HTMLElement;
