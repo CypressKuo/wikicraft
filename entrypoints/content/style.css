@@ -1248,6 +1248,9 @@ html[data-wikicraft-enabled="true"] .skin-minerva .post-content {
   max-width: 780px !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  box-sizing: border-box !important;
 }
 
 html[data-wikicraft-enabled="true"] .skin-minerva .pre-content h1,

@@ -37,7 +37,8 @@ html[data-popup-theme="dark"] {
 }
 
 body {
-  width: 310px;
+  min-width: 310px;
+  width: 100%;
   background-color: var(--p-bg);
   color: var(--p-text);
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'PingFang TC',
