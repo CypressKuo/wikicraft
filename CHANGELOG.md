@@ -18,10 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Native SwiftUI Welcome Experience**: Replaced the legacy host app web view on macOS and iOS with a native SwiftUI welcome interface featuring real-time Safari extension status detection, bilingual (English / Traditional Chinese) setup steps, and subtle hover interactions.
 
 ### Changed
-- **Dynamic Version Display**: The toolbar popup now automatically reads the extension version from `chrome.runtime.getManifest().version`.
+- **Dynamic Version & Brand Icon**: The toolbar popup now displays the official app icon and automatically reads the extension version from `chrome.runtime.getManifest().version`.
+- **Unified Figure Cards**: Refactored thumbnail `<figure>` and `<figcaption>` elements into a single flex card container, eliminating border gaps across desktop and mobile.
 
 ### Fixed
-- **iOS Safari Bottom Sheet Alignment**: Updated popup sizing (`min-width: 310px; width: 100%`) so the extension sheet centers cleanly across the full width on iPhone Safari, and restored `16px` horizontal reading padding on mobile Wikipedia articles.
+- **iOS Safari Bottom Sheet & Toggle Reliability**: Updated popup sizing (`min-width: 310px; width: 100%`), expanded toggle touch targets, and switched to native Promise storage with instant active-tab messaging so theme switching works seamlessly across macOS, iOS, and Chrome.
+- **Mobile Drawer & Reading Margins**: Removed header `backdrop-filter` clipping on Minerva Neue so the left navigation drawer opens at full height, and restored `16px` horizontal reading padding with text-wrapping support for thumbnails.
 
 ---
 
