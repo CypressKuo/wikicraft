@@ -11,6 +11,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2026-11-24
+
+### Added
+- **iPhone & iPad Support (`*.m.wikipedia.org`)**: Added full styling support for mobile Wikipedia (Minerva Neue skin), including top header, left drawer menu, section headings, compact header toggle pill, and full-width responsive Infobox cards on narrow screens.
+- **Native SwiftUI Welcome Experience**: Replaced the legacy host app web view on macOS and iOS with a native SwiftUI welcome interface featuring real-time Safari extension status detection, bilingual (English / Traditional Chinese) setup steps, and subtle hover interactions.
+
+### Changed
+- **Dynamic Version Display**: The toolbar popup now automatically reads the extension version from `chrome.runtime.getManifest().version`.
+
+### Fixed
+- **iOS Safari Bottom Sheet Alignment**: Updated popup sizing (`min-width: 310px; width: 100%`) so the extension sheet centers cleanly across the full width on iPhone Safari, and restored `16px` horizontal reading padding on mobile Wikipedia articles.
+
+---
+
 ## [1.0.1] - 2026-11-13
 
 ### Added

@@ -1,7 +1,7 @@
 {
   "name": "wikicraft",
   "description": "A clean, Notion & Craft-inspired reading theme for Wikipedia with seamless Light & Dark modes.",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
