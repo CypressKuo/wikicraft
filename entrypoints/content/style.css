@@ -1315,17 +1315,16 @@ html[data-wikicraft-enabled="true"] .skin-minerva .collapsible-heading {
     box-sizing: border-box !important;
   }
 
+  /* Keep text-wrapping around floating thumbnails on mobile, capping image width so prose stays readable */
   html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"],
-  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"],
-  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"].mw-halign-left,
-  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"].mw-halign-left,
-  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"].mw-halign-right,
-  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"].mw-halign-right,
-  html[data-wikicraft-enabled="true"] .mw-content-ltr figure[typeof~="mw:File/Thumb"]:not(.mw-halign-left):not(.mw-halign-center):not(.mw-halign-none),
-  html[data-wikicraft-enabled="true"] .mw-content-ltr figure[typeof~="mw:File/Frame"]:not(.mw-halign-left):not(.mw-halign-center):not(.mw-halign-none) {
-    float: none !important;
-    clear: both !important;
-    margin: 1.2em auto !important;
+  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"] {
+    max-width: 48% !important;
+  }
+
+  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"] img,
+  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"] img {
+    max-width: 100% !important;
+    height: auto !important;
   }
 }
 
