@@ -117,7 +117,6 @@ function sanitizeInlineStyles(root: ParentNode = document): void {
 
 export default defineContentScript({
   matches: ['*://*.wikipedia.org/*'],
-  excludeMatches: ['*://*.m.wikipedia.org/*'],
   runAt: 'document_start',
 
   main() {
@@ -189,13 +188,14 @@ export default defineContentScript({
     function injectHeaderToggle(): void {
       if (document.getElementById('wikicraft-header-toggle')) return;
 
+      const minervaNav = document.querySelector('.minerva-header .minerva-user-navigation');
       const headerEnd =
         document.querySelector('.vector-header-end .vector-user-links') ||
         document.querySelector('.vector-header-end') ||
         document.querySelector('#p-personal ul') ||
         document.querySelector('#p-personal');
 
-      if (!headerEnd) return;
+      if (!headerEnd && !minervaNav) return;
 
       const wrapper = document.createElement('div');
       wrapper.id = 'wikicraft-header-toggle';
@@ -217,7 +217,12 @@ export default defineContentScript({
       });
 
       wrapper.appendChild(btn);
-      headerEnd.prepend(wrapper);
+      if (minervaNav && minervaNav.parentElement) {
+        wrapper.classList.add('wc-header-toggle-mobile');
+        minervaNav.parentElement.insertBefore(wrapper, minervaNav);
+      } else if (headerEnd) {
+        headerEnd.prepend(wrapper);
+      }
       toggleBtn = btn;
       updateHeaderToggleUI();
     }

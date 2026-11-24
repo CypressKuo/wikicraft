@@ -1195,3 +1195,129 @@ html:not([data-wikicraft-enabled="true"]) .wc-header-toggle-btn {
   color: #4b5563;
   border-color: #d1d5db;
 }
+
+/* ==========================================================================
+   8. Mobile Wikipedia (Minerva Neue) & Responsive Tablet / Phone Support
+   ========================================================================== */
+
+html[data-wikicraft-enabled="true"] body.skin-minerva,
+html[data-wikicraft-enabled="true"] #mw-mf-page-center,
+html[data-wikicraft-enabled="true"] .skin-minerva .mw-mf-page-center__mask {
+  background-color: var(--wc-bg) !important;
+  color: var(--wc-text) !important;
+  font-family: var(--wc-font-sans) !important;
+}
+
+/* Minerva Top Header */
+html[data-wikicraft-enabled="true"] .skin-minerva .header-container,
+html[data-wikicraft-enabled="true"] .skin-minerva .header-chrome,
+html[data-wikicraft-enabled="true"] .skin-minerva .minerva-header {
+  background-color: var(--wc-header-bg) !important;
+  backdrop-filter: blur(14px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
+  border-bottom: 1px solid var(--wc-border) !important;
+  box-shadow: none !important;
+}
+
+html[data-wikicraft-enabled="true"][data-wikicraft-theme="dark"] .skin-minerva .branding-box img {
+  filter: invert(0.92) hue-rotate(180deg) !important;
+}
+
+/* Minerva Left Navigation Drawer */
+html[data-wikicraft-enabled="true"] .skin-minerva #mw-mf-page-left,
+html[data-wikicraft-enabled="true"] .skin-minerva .menu {
+  background-color: var(--wc-surface) !important;
+  color: var(--wc-text) !important;
+  border-right: 1px solid var(--wc-border) !important;
+}
+
+html[data-wikicraft-enabled="true"] .skin-minerva .menu ul li a {
+  color: var(--wc-text) !important;
+  border-color: var(--wc-border) !important;
+}
+
+html[data-wikicraft-enabled="true"] .skin-minerva .menu ul li a:hover {
+  background-color: var(--wc-surface-elevated) !important;
+}
+
+/* Minerva Article Header & Action Bar */
+html[data-wikicraft-enabled="true"] .skin-minerva .pre-content,
+html[data-wikicraft-enabled="true"] .skin-minerva .content,
+html[data-wikicraft-enabled="true"] .skin-minerva .post-content {
+  background-color: var(--wc-bg) !important;
+  max-width: 780px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+html[data-wikicraft-enabled="true"] .skin-minerva .pre-content h1,
+html[data-wikicraft-enabled="true"] .skin-minerva #section_0 {
+  font-family: var(--wc-font-sans) !important;
+  font-size: clamp(1.65rem, 5vw, 2.15rem) !important;
+  font-weight: 700 !important;
+  color: var(--wc-text-strong) !important;
+  letter-spacing: -0.02em !important;
+  border-bottom: none !important;
+}
+
+html[data-wikicraft-enabled="true"] .skin-minerva .page-actions-menu {
+  border-top: 1px solid var(--wc-border) !important;
+  border-bottom: 1px solid var(--wc-border) !important;
+}
+
+html[data-wikicraft-enabled="true"] .skin-minerva .content {
+  font-size: 16px !important;
+  line-height: 1.75 !important;
+  color: var(--wc-text) !important;
+}
+
+html[data-wikicraft-enabled="true"] .skin-minerva .section-heading,
+html[data-wikicraft-enabled="true"] .skin-minerva .collapsible-heading {
+  border-bottom: 1px solid var(--wc-border) !important;
+  color: var(--wc-text-strong) !important;
+  padding-bottom: 6px !important;
+  margin-top: 1.4em !important;
+}
+
+/* Mobile Toggle Pill Compact Variant */
+.wc-header-toggle-mobile {
+  margin-right: 4px;
+}
+
+@media screen and (max-width: 640px) {
+  .wc-header-toggle-mobile .wc-header-toggle-btn {
+    padding: 0 8px;
+    height: 30px;
+    gap: 4px;
+    font-size: 12px;
+  }
+}
+
+/* Responsive Infobox & Table Card Layout on Narrow Screens / iPhone */
+@media screen and (max-width: 720px) {
+  html[data-wikicraft-enabled="true"] .infobox,
+  html[data-wikicraft-enabled="true"] .infobox_v2,
+  html[data-wikicraft-enabled="true"] .infobox_v3,
+  html[data-wikicraft-enabled="true"] table.sidebar,
+  html[data-wikicraft-enabled="true"] .vertical-navbox {
+    float: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 1em 0 1.4em 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"],
+  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"] {
+    float: none !important;
+    margin: 1em auto !important;
+  }
+}
+
+/* Minerva Footer */
+html[data-wikicraft-enabled="true"] .skin-minerva footer.mw-footer,
+html[data-wikicraft-enabled="true"] .skin-minerva .minerva-footer {
+  background-color: var(--wc-surface) !important;
+  border-top: 1px solid var(--wc-border) !important;
+  color: var(--wc-text-secondary) !important;
+}
