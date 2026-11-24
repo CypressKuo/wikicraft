@@ -14,6 +14,99 @@ export const DEFAULT_SETTINGS: WikiCraftSettings = {
 export const STORAGE_KEY = 'wikicraft_settings';
 export const LOCAL_CACHE_KEY = 'wikicraft_local_cache_v1';
 
+function normalizeSettings(raw: Partial<WikiCraftSettings> | undefined): WikiCraftSettings {
+  if (!raw) return DEFAULT_SETTINGS;
+  return {
+    enabled: typeof raw.enabled === 'boolean' ? raw.enabled : DEFAULT_SETTINGS.enabled,
+    themeMode:
+      raw.themeMode === 'light' || raw.themeMode === 'dark' || raw.themeMode === 'system'
+        ? raw.themeMode
+        : DEFAULT_SETTINGS.themeMode,
+  };
+}
+
+/**
+ * Safely read a key from a chrome.storage area (supports both MV3 Promise & MV2 callback APIs).
+ */
+function storageGet(area: chrome.storage.StorageArea | undefined, key: string): Promise<Record<string, unknown>> {
+  return new Promise((resolve) => {
+    if (!area) {
+      resolve({});
+      return;
+    }
+    try {
+      let settled = false;
+      const maybePromise = (area.get as unknown as (
+        k: string,
+        cb: (res: Record<string, unknown>) => void
+      ) => Promise<Record<string, unknown>> | void)(key, (res) => {
+        if (!settled) {
+          settled = true;
+          resolve(res || {});
+        }
+      });
+      if (maybePromise && typeof (maybePromise as Promise<Record<string, unknown>>).then === 'function') {
+        (maybePromise as Promise<Record<string, unknown>>)
+          .then((res) => {
+            if (!settled) {
+              settled = true;
+              resolve(res || {});
+            }
+          })
+          .catch(() => {
+            if (!settled) {
+              settled = true;
+              resolve({});
+            }
+          });
+      }
+    } catch {
+      resolve({});
+    }
+  });
+}
+
+/**
+ * Safely write items to a chrome.storage area (supports both MV3 Promise & MV2 callback APIs).
+ */
+function storageSet(area: chrome.storage.StorageArea | undefined, items: Record<string, unknown>): Promise<void> {
+  return new Promise((resolve) => {
+    if (!area) {
+      resolve();
+      return;
+    }
+    try {
+      let settled = false;
+      const maybePromise = (area.set as unknown as (
+        it: Record<string, unknown>,
+        cb: () => void
+      ) => Promise<void> | void)(items, () => {
+        if (!settled) {
+          settled = true;
+          resolve();
+        }
+      });
+      if (maybePromise && typeof (maybePromise as Promise<void>).then === 'function') {
+        (maybePromise as Promise<void>)
+          .then(() => {
+            if (!settled) {
+              settled = true;
+              resolve();
+            }
+          })
+          .catch(() => {
+            if (!settled) {
+              settled = true;
+              resolve();
+            }
+          });
+      }
+    } catch {
+      resolve();
+    }
+  });
+}
+
 /**
  * Resolve 'system' | 'light' | 'dark' into actual 'light' | 'dark'
  */
@@ -34,14 +127,7 @@ export function getSyncCachedSettings(): WikiCraftSettings {
   try {
     const raw = window.localStorage.getItem(LOCAL_CACHE_KEY);
     if (!raw) return DEFAULT_SETTINGS;
-    const parsed = JSON.parse(raw) as Partial<WikiCraftSettings>;
-    return {
-      enabled: typeof parsed.enabled === 'boolean' ? parsed.enabled : DEFAULT_SETTINGS.enabled,
-      themeMode:
-        parsed.themeMode === 'light' || parsed.themeMode === 'dark' || parsed.themeMode === 'system'
-          ? parsed.themeMode
-          : DEFAULT_SETTINGS.themeMode,
-    };
+    return normalizeSettings(JSON.parse(raw) as Partial<WikiCraftSettings>);
   } catch {
     return DEFAULT_SETTINGS;
   }
@@ -59,33 +145,26 @@ export function setSyncCachedSettings(settings: WikiCraftSettings): void {
 }
 
 /**
- * Load settings from chrome.storage.sync (with fallback to chrome.storage.local and DEFAULT_SETTINGS)
+ * Load settings from chrome.storage.local (primary for offline/iOS reliability) with fallback to sync
  */
 export async function loadSettings(): Promise<WikiCraftSettings> {
   try {
-    const storageArea = chrome?.storage?.sync ?? chrome?.storage?.local;
-    if (!storageArea) {
-      return DEFAULT_SETTINGS;
+    const localRes = await storageGet(chrome?.storage?.local, STORAGE_KEY);
+    if (localRes?.[STORAGE_KEY]) {
+      return normalizeSettings(localRes[STORAGE_KEY] as Partial<WikiCraftSettings>);
     }
-    const result = await storageArea.get(STORAGE_KEY);
-    const saved = result?.[STORAGE_KEY] as Partial<WikiCraftSettings> | undefined;
-    if (!saved) {
-      return DEFAULT_SETTINGS;
+    const syncRes = await storageGet(chrome?.storage?.sync, STORAGE_KEY);
+    if (syncRes?.[STORAGE_KEY]) {
+      return normalizeSettings(syncRes[STORAGE_KEY] as Partial<WikiCraftSettings>);
     }
-    return {
-      enabled: typeof saved.enabled === 'boolean' ? saved.enabled : DEFAULT_SETTINGS.enabled,
-      themeMode:
-        saved.themeMode === 'light' || saved.themeMode === 'dark' || saved.themeMode === 'system'
-          ? saved.themeMode
-          : DEFAULT_SETTINGS.themeMode,
-    };
+    return DEFAULT_SETTINGS;
   } catch {
     return DEFAULT_SETTINGS;
   }
 }
 
 /**
- * Save partial or full settings to chrome.storage.sync
+ * Save partial or full settings to both chrome.storage.local and chrome.storage.sync
  */
 export async function saveSettings(partial: Partial<WikiCraftSettings>): Promise<WikiCraftSettings> {
   const current = await loadSettings();
@@ -93,19 +172,15 @@ export async function saveSettings(partial: Partial<WikiCraftSettings>): Promise
     ...current,
     ...partial,
   };
-  try {
-    const storageArea = chrome?.storage?.sync ?? chrome?.storage?.local;
-    if (storageArea) {
-      await storageArea.set({ [STORAGE_KEY]: next });
-    }
-  } catch {
-    // Fallback if sync fails
-  }
+  await Promise.all([
+    storageSet(chrome?.storage?.local, { [STORAGE_KEY]: next }),
+    storageSet(chrome?.storage?.sync, { [STORAGE_KEY]: next }),
+  ]);
   return next;
 }
 
 /**
- * Cycle through Light -> Dark -> System (or if currently resolved to light, switch to dark, etc.)
+ * Cycle through Light -> Dark -> System
  */
 export function getNextThemeMode(current: ThemeMode): ThemeMode {
   const order: ThemeMode[] = ['light', 'dark', 'system'];

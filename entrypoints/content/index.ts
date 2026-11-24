@@ -259,6 +259,15 @@ export default defineContentScript({
       });
     }
 
+    if (typeof chrome !== 'undefined' && chrome.runtime?.onMessage) {
+      chrome.runtime.onMessage.addListener((message: unknown) => {
+        const payload = message as { type?: string; settings?: WikiCraftSettings } | null;
+        if (payload?.type === 'WIKICRAFT_SETTINGS_UPDATED' && payload.settings) {
+          applyToDOM(payload.settings);
+        }
+      });
+    }
+
     // 5. Run DOM enhancements when DOM is ready
     const onDomReady = () => {
       if (currentSettings.enabled) {

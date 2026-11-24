@@ -85,17 +85,51 @@ async function initPopup(): Promise<void> {
 
   render(currentSettings);
 
+  function notifyActiveTab(settings: WikiCraftSettings): void {
+    try {
+      if (typeof chrome !== 'undefined' && chrome.tabs?.query && chrome.tabs?.sendMessage) {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          const tabId = tabs?.[0]?.id;
+          if (typeof tabId === 'number') {
+            chrome.tabs.sendMessage(
+              tabId,
+              { type: 'WIKICRAFT_SETTINGS_UPDATED', settings },
+              () => {
+                // Consume lastError silently when active tab is not Wikipedia
+                void chrome.runtime?.lastError;
+              }
+            );
+          }
+        });
+      }
+    } catch {
+      // Ignore if tabs API unavailable
+    }
+  }
+
   enableToggle.addEventListener('change', async () => {
+    const optimistic: WikiCraftSettings = {
+      ...currentSettings,
+      enabled: enableToggle.checked,
+    };
+    render(optimistic);
     const updated = await saveSettings({ enabled: enableToggle.checked });
     render(updated);
+    notifyActiveTab(updated);
   });
 
   segmentButtons.forEach((btn) => {
     btn.addEventListener('click', async () => {
       const mode = btn.dataset.mode as ThemeMode | undefined;
       if (!mode) return;
+      const optimistic: WikiCraftSettings = {
+        enabled: true,
+        themeMode: mode,
+      };
+      render(optimistic);
       const updated = await saveSettings({ enabled: true, themeMode: mode });
       render(updated);
+      notifyActiveTab(updated);
     });
   });
 
