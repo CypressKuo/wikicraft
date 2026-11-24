@@ -1000,25 +1000,20 @@ html[data-wikicraft-enabled="true"] pre {
   line-height: 1.6 !important;
 }
 
-/* Image Thumbnails & Figures
-   MediaWiki uses display: table on <figure> and display: table-caption (caption-side: bottom)
-   on <figcaption>, so <figcaption> is rendered below <figure>'s border box. */
+/* Image Thumbnails & Figures — unified flex card (replaces MediaWiki table/table-caption split) */
 html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"],
 html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"] {
+  display: flex !important;
+  flex-direction: column !important;
+  width: fit-content !important;
+  max-width: 100% !important;
   background-color: var(--wc-surface) !important;
   border: 1px solid var(--wc-border) !important;
-  border-bottom: none !important;
-  border-radius: var(--wc-radius-md) var(--wc-radius-md) 0 0 !important;
-  padding: 8px 8px 4px 8px !important;
-  line-height: 0 !important;
-  box-shadow: none !important;
-}
-
-html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"]:not(:has(> figcaption)),
-html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"]:not(:has(> figcaption)) {
-  border-bottom: 1px solid var(--wc-border) !important;
   border-radius: var(--wc-radius-md) !important;
   padding: 8px !important;
+  line-height: 0 !important;
+  box-shadow: var(--wc-shadow-sm) !important;
+  overflow: hidden !important;
 }
 
 html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"].mw-halign-left,
@@ -1039,14 +1034,18 @@ html[data-wikicraft-enabled="true"] .mw-content-ltr figure[typeof~="mw:File/Fram
 
 html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"] > figcaption,
 html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"] > figcaption {
-  background-color: var(--wc-surface) !important;
+  display: block !important;
+  width: 0 !important;
+  min-width: 100% !important;
+  background-color: transparent !important;
   color: var(--wc-text-secondary) !important;
-  border: 1px solid var(--wc-border) !important;
-  border-top: none !important;
-  border-radius: 0 0 var(--wc-radius-md) var(--wc-radius-md) !important;
+  border: none !important;
+  border-radius: 0 !important;
   font-size: 13px !important;
   line-height: 1.5 !important;
-  padding: 4px 10px 10px 10px !important;
+  padding: 8px 4px 2px 4px !important;
+  margin: 0 !important;
+  text-align: start !important;
 }
 
 html[data-wikicraft-enabled="true"] .thumbinner {
