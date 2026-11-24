@@ -1208,13 +1208,11 @@ html[data-wikicraft-enabled="true"] .skin-minerva .mw-mf-page-center__mask {
   font-family: var(--wc-font-sans) !important;
 }
 
-/* Minerva Top Header */
+/* Minerva Top Header (avoid backdrop-filter so fixed #mw-mf-page-left drawer isn't trapped inside header height) */
 html[data-wikicraft-enabled="true"] .skin-minerva .header-container,
 html[data-wikicraft-enabled="true"] .skin-minerva .header-chrome,
 html[data-wikicraft-enabled="true"] .skin-minerva .minerva-header {
-  background-color: var(--wc-header-bg) !important;
-  backdrop-filter: blur(14px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
+  background-color: var(--wc-bg) !important;
   border-bottom: 1px solid var(--wc-border) !important;
   box-shadow: none !important;
 }
