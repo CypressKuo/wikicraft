@@ -1010,6 +1010,7 @@ html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"] {
   border-bottom: none !important;
   border-radius: var(--wc-radius-md) var(--wc-radius-md) 0 0 !important;
   padding: 8px 8px 4px 8px !important;
+  line-height: 0 !important;
   box-shadow: none !important;
 }
 
@@ -1057,9 +1058,16 @@ html[data-wikicraft-enabled="true"] .thumbinner {
   overflow: hidden !important;
 }
 
+html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"] > :not(figcaption),
+html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"] > :not(figcaption) {
+  display: block !important;
+  line-height: 0 !important;
+}
+
 html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"] > :not(figcaption) .mw-file-element,
 html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"] > :not(figcaption) .mw-file-element,
 html[data-wikicraft-enabled="true"] .thumbimage {
+  display: block !important;
   border: none !important;
   border-radius: var(--wc-radius-sm) !important;
   margin: 0 !important;
@@ -1309,9 +1317,16 @@ html[data-wikicraft-enabled="true"] .skin-minerva .collapsible-heading {
   }
 
   html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"],
-  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"] {
+  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"],
+  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"].mw-halign-left,
+  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"].mw-halign-left,
+  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Thumb"].mw-halign-right,
+  html[data-wikicraft-enabled="true"] figure[typeof~="mw:File/Frame"].mw-halign-right,
+  html[data-wikicraft-enabled="true"] .mw-content-ltr figure[typeof~="mw:File/Thumb"]:not(.mw-halign-left):not(.mw-halign-center):not(.mw-halign-none),
+  html[data-wikicraft-enabled="true"] .mw-content-ltr figure[typeof~="mw:File/Frame"]:not(.mw-halign-left):not(.mw-halign-center):not(.mw-halign-none) {
     float: none !important;
-    margin: 1em auto !important;
+    clear: both !important;
+    margin: 1.2em auto !important;
   }
 }
 
