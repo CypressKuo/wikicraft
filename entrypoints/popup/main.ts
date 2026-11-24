@@ -61,7 +61,10 @@ async function initPopup(): Promise<void> {
     document.querySelectorAll<HTMLButtonElement>('.segment-btn')
   );
 
-  let currentSettings = await loadSettings();
+  let currentSettings: WikiCraftSettings = {
+    enabled: true,
+    themeMode: 'system',
+  };
 
   function render(settings: WikiCraftSettings): void {
     currentSettings = settings;
@@ -85,8 +88,17 @@ async function initPopup(): Promise<void> {
 
   render(currentSettings);
 
-  function notifyActiveTab(settings: WikiCraftSettings): void {
+  async function notifyActiveTab(settings: WikiCraftSettings): Promise<void> {
     try {
+      const browserTabs = (globalThis as { browser?: { tabs?: typeof chrome.tabs } }).browser?.tabs;
+      if (browserTabs?.query && browserTabs?.sendMessage) {
+        const tabs = await browserTabs.query({ active: true, currentWindow: true });
+        const tabId = tabs?.[0]?.id;
+        if (typeof tabId === 'number') {
+          await browserTabs.sendMessage(tabId, { type: 'WIKICRAFT_SETTINGS_UPDATED', settings });
+        }
+        return;
+      }
       if (typeof chrome !== 'undefined' && chrome.tabs?.query && chrome.tabs?.sendMessage) {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
           const tabId = tabs?.[0]?.id;
@@ -95,8 +107,7 @@ async function initPopup(): Promise<void> {
               tabId,
               { type: 'WIKICRAFT_SETTINGS_UPDATED', settings },
               () => {
-                // Consume lastError silently when active tab is not Wikipedia
-                void chrome.runtime?.lastError;
+                void chrome?.runtime?.lastError;
               }
             );
           }
@@ -131,6 +142,11 @@ async function initPopup(): Promise<void> {
       const updated = await saveSettings({ enabled: true, themeMode: mode });
       render(updated);
     });
+  });
+
+  // Load saved settings after attaching event listeners so buttons always stay responsive
+  loadSettings().then((saved) => {
+    render(saved);
   });
 
   if (typeof window.matchMedia === 'function') {
