@@ -2,6 +2,17 @@ import { defineConfig } from 'wxt';
 
 export default defineConfig({
   outDir: 'dist',
+  vite: () => ({
+    build: {
+      rollupOptions: {
+        output: {
+          entryFileNames: 'chunks/[name].js',
+          chunkFileNames: 'chunks/[name].js',
+          assetFileNames: 'assets/[name].[ext]',
+        },
+      },
+    },
+  }),
   manifest: {
     name: '__MSG_extName__',
     description: '__MSG_extDescription__',
